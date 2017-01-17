@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.ops import ctc_ops
 
-from phoeme_set import phoeme_set_39
+from phoneme_set import phoneme_set_39
 from utils import process_wav
 
 
@@ -146,7 +146,7 @@ def train_model(ENV, train_data=None, test_data=None, decode=False):
                 dsp = d.shape
                 res = []
                 for label in d.values[:dsp[1]]:
-                    for k, v in phoeme_set_39.items():
+                    for k, v in phoneme_set_39.items():
                         if v == label + 1:
                             res.append(k)           
                 print(res)

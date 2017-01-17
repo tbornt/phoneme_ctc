@@ -1,4 +1,4 @@
-phoeme_set_48 = {
+phoneme_set_48 = {
     'iy': 1,
     'ih': 2,
     'eh': 3,
@@ -67,7 +67,7 @@ phoeme_set_48 = {
 }
 
 
-phoeme_48_39 = {
+phoneme_48_39 = {
     'ao': 'aa',
     'ax': 'ah',
     'ax-h': 'ah',
@@ -94,7 +94,7 @@ phoeme_48_39 = {
     'ux': 'uw'
 }
 
-phoeme_set_39 = {
+phoneme_set_39 = {
     'iy': 1,
     'ih': 2,
     'eh': 3,

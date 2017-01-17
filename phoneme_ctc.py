@@ -9,7 +9,7 @@ import argparse
 
 from tqdm import tqdm
 
-from utils import load_data, process_data
+from utils import load_data, process_data, process_raw_phn
 from train import train_model
 from transform import transform_wav, copy_phn
 
@@ -66,6 +66,12 @@ def transform(ENV):
                                 os.path.basename(test_wav_files[i]).split('.')[0] + '.phn')
         copy_phn(phn_file, test_output_path)
 
+
+def phoneme(ENV):
+    while True:
+        phn_file = raw_input('Enter the path for phn file:')
+        phn_list = process_raw_phn(phn_file)
+        print(phn_list)
 
 def setup_env(args):
     if 'output_path' in args and not os.path.exists(args.output_path):
@@ -124,6 +130,9 @@ def prepare_parser():
                               help="the directory store output data",
                               required=True)
     transform_parser.set_defaults(func=transform)
+
+    phoneme_parser = sub_parsers.add_parser('phoneme')
+    phoneme_parser.set_defaults(func=phoneme)
     return parser
 
 

@@ -12,7 +12,7 @@ from python_speech_features import logfbank
 import scipy.io.wavfile as wav
 from tqdm import tqdm
 
-from phoeme_set import phoeme_set_48, phoeme_48_39, phoeme_set_39
+from phoneme_set import phoneme_set_48, phoneme_48_39, phoneme_set_39
 
 def load_data(train_path):
     wav_files = []
@@ -56,7 +56,7 @@ def process_data(wav_files, phn_files):
             for row in phn_reader:
                 if row[2] == 'q':
                     continue
-                phn_labels.append(phoeme_set_39[phoeme_48_39.get(row[2], row[2])] - 1)
+                phn_labels.append(phoneme_set_39[phoneme_48_39.get(row[2], row[2])] - 1)
 
         inputs.append(acoustic_features)
         targets.append(phn_labels)
@@ -115,3 +115,14 @@ def process_wav(wav_file):
     fbank_feat = logfbank(sig, rate)
     acoustic_features = join_features(mfcc_feat, fbank_feat) # time_stamp x n_features
     return acoustic_features
+
+
+def process_raw_phn(phn_file):
+    phn_labels = []
+    with open(phn_file, 'rb') as csvfile:
+        phn_reader = csv.reader(csvfile, delimiter=' ')
+        for row in phn_reader:
+            if row[2] == 'q':
+                continue
+            phn_labels.append(phoneme_48_39.get(row[2], row[2]))
+    return phn_labels
