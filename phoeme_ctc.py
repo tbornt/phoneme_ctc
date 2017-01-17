@@ -11,7 +11,6 @@ from tqdm import tqdm
 
 from utils import load_data, process_data
 from train import train_model
-from decode import decode_wav
 from transform import transform_wav, copy_phn
 
 
@@ -42,7 +41,6 @@ def train(ENV):
 
 
 def decode(ENV):
-    # decode_wav(ENV)
     train_model(ENV, decode=True)
 
 
