@@ -19,7 +19,10 @@ After 100 epoches, which costs me 4 days using NVIDIA1070 GPU, the cost decrease
 
 Decode
 ----
-`python phoneme_ctc.py decode -m checkpoint_dir`. Then you can provide a wav audio file and the model will output the phoneme labels. Notce: the wav file should be 1 channel, 16 bits and bitrate 16000.
+`python phoneme_ctc.py decode -m checkpoint_dir`. Then you can provide a wav audio file and the model will output the phoneme labels. Notce: the wav file should be 1 channel, 16 bits and bitrate 16000. I record the wav file using sox on my mac. e.g. `sox -d -b 16 -c 1 -r 16000 helloworld.wav`
+
+I provide a trained model, you can test the model using `python phoneme_ctc.py decode -m model`.
+
 
 Dependencies
 ----
