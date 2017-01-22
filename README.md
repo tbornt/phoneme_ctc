@@ -27,5 +27,6 @@ I provide a trained model, you can test the model using `python phoneme_ctc.py d
 Dependencies
 ----
 `python 2.7`
-`requirements.txt`
+`brew install libsndfile`
+`pip install -r requirements.txt`
 
