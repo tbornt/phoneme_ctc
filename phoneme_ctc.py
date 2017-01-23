@@ -20,7 +20,7 @@ class Env:
 ENV = Env()
 
 
-def train(ENV):
+def train(ENV, args):
     processed_train_data_path = os.path.join(ENV.processed_data_path, 'processed_train.pkl')
     processed_test_data_path = os.path.join(ENV.processed_data_path, 'processed_test.pkl')
     if os.path.exists(processed_train_data_path) and os.path.exists(processed_test_data_path):
@@ -40,11 +40,11 @@ def train(ENV):
     train_model(ENV, processed_train_data, processed_test_data)
 
 
-def decode(ENV):
-    train_model(ENV, decode=True)
+def decode(ENV, args):
+    train_model(ENV, decode=True, file_decode=args.file_decode)
 
 
-def transform(ENV):
+def transform(ENV, args):
     train_wav_files, train_phn_files = load_train_data(ENV.train_data)
     test_wav_files = load_test_data(ENV.test_data)
     train_output_path = os.path.join(ENV.output, 'train')
@@ -67,7 +67,7 @@ def transform(ENV):
         copy_phn(phn_file, test_output_path)
 
 
-def phoneme(ENV):
+def phoneme(ENV, args):
     while True:
         phn_file = raw_input('Enter the path for phn file:')
         phn_list = process_raw_phn(phn_file)
@@ -117,6 +117,8 @@ def prepare_parser():
     decode_parser = sub_parsers.add_parser('decode')
     decode_parser.add_argument('-m', '--model_path',
                                help="the directory store the model") 
+    decode_parser.add_argument('-f', '--file_decode',
+                               action='store_true', help='decode from file')
     decode_parser.set_defaults(func=decode)
 
     transform_parser = sub_parsers.add_parser('transform')
@@ -140,4 +142,4 @@ if __name__ == '__main__':
     arg_parser = prepare_parser()
     args = arg_parser.parse_args(sys.argv[1:])
     setup_env(args)
-    args.func(ENV)
+    args.func(ENV, args)

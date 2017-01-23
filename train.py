@@ -2,6 +2,8 @@ import os
 import time
 import logging
 logging.basicConfig(level=logging.INFO)
+import signal
+import subprocess
 
 import numpy as np
 import tensorflow as tf
@@ -23,7 +25,7 @@ batch_size = 16
 learning_rate = 0.001
 momentum = 0.9
 
-def train_model(ENV, train_data=None, test_data=None, decode=False):
+def train_model(ENV, train_data=None, test_data=None, decode=False, file_decode=False):
     graph = tf.Graph()
     with graph.as_default():
         # e.g: log filter bank or MFCC features
@@ -133,7 +135,19 @@ def train_model(ENV, train_data=None, test_data=None, decode=False):
             saver.restore(session, ckpt.model_checkpoint_path)
 
             while True:
-                wav_file = raw_input('Enter the path for a wav file:')
+                if file_decode:
+                    wav_file = raw_input('Enter the wav file path:')
+                else:
+                    wav_file = 'temp.wav'
+                    raw_input('Press Enter to start...')
+                    try:
+                        sox = subprocess.Popen(['sox', '-d', '-b', '16', '-c', '1', '-r', '16000', 'temp.wav'])
+                        sox.communicate()
+                    except KeyboardInterrupt:
+                        os.kill(sox.pid, signal.SIGTERM)
+                        if sox.poll() is None:
+                            time.sleep(2)
+                    print('Done recording')
                 features = process_wav(wav_file)
                 batch_features = np.array([features for i in range(16)])
                 batch_seq_len = np.array([features.shape[0] for i in range(16)])
